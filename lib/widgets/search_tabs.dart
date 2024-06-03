@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_responsive_ui/app_colors.dart';
 
 class SearchTabs extends StatelessWidget {
@@ -9,7 +10,6 @@ class SearchTabs extends StatelessWidget {
     return const SizedBox(
       height: 55,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SearchTab(
             iconData: Icons.search,

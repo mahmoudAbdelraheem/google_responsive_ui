@@ -3,8 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_responsive_ui/app_colors.dart';
 import 'package:google_responsive_ui/widgets/mobile/mobile_footer.dart';
 import 'package:google_responsive_ui/widgets/search.dart';
-import 'package:google_responsive_ui/widgets/translation_buttons.dart';
-import 'package:google_responsive_ui/widgets/web/search_buttons.dart';
 
 class MobileScreenLayout extends StatelessWidget {
   const MobileScreenLayout({super.key});
@@ -66,28 +64,18 @@ class MobileScreenLayout extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: screenSize.height * 0.25,
-          ),
-          const Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    //? search text feild
-                    Search(),
-                    //? search buttons
-                    SearchButtons(),
-                    //? button for translation
-                    TranslationButtons(),
-                  ],
-                ),
-                //? web screen footar
-                MobileFooter(),
-              ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: screenSize.height * 0.25),
+                  const Search(),
+                ],
+              ),
             ),
           ),
+          //? web screen footar
+          const MobileFooter(),
         ],
       ),
     );
