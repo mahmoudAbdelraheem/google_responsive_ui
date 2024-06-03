@@ -7,7 +7,13 @@ import 'package:google_responsive_ui/widgets/search_result_component.dart';
 import 'package:google_responsive_ui/widgets/search_tabs.dart';
 
 class SearchResultScreen extends StatelessWidget {
-  const SearchResultScreen({super.key});
+  final String searchQuary;
+  final String start;
+  const SearchResultScreen({
+    super.key,
+    required this.searchQuary,
+    required this.start,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +28,7 @@ class SearchResultScreen extends StatelessWidget {
             //? tab for news , images ,etc
             Padding(
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
+                left: MediaQuery.of(context).size.width >= 768 ? 150 : 10,
               ),
               child: const SearchTabs(),
             ),
@@ -32,7 +38,8 @@ class SearchResultScreen extends StatelessWidget {
             ),
             //! search results fetch data
             FutureBuilder(
-                future: ApiServices().fetchData(quary: 'Rivaan'),
+                future:
+                    ApiServices().fetchData(quary: searchQuary, start: start),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     return Column(
@@ -41,7 +48,7 @@ class SearchResultScreen extends StatelessWidget {
                       children: [
                         Container(
                           padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.1,
+                            left:  MediaQuery.of(context).size.width >= 768 ? 150 : 10,
                             top: 12,
                           ),
                           child: Text(
@@ -58,7 +65,9 @@ class SearchResultScreen extends StatelessWidget {
                           itemBuilder: (_, index) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.1,
+                                left:  MediaQuery.of(context).size.width >= 768
+                                    ? 150
+                                    : 10,
                                 top: 10,
                               ),
                               child: SearchResultComponent(
@@ -72,7 +81,64 @@ class SearchResultScreen extends StatelessWidget {
                               ),
                             );
                           },
-                        )
+                        ),
+                        //? pagination buttons
+                        //! prev and next buttons
+                        SizedBox(
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  if (start != '0') {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return SearchResultScreen(
+                                          searchQuary: searchQuary,
+                                          start: (int.parse(start) - 10)
+                                              .toString(),
+                                        );
+                                      }),
+                                    );
+                                  }
+                                },
+                                child: const Text(
+                                  '< Prev',
+                                  style: TextStyle(
+                                    color: AppColors.blueColor,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return SearchResultScreen(
+                                        searchQuary: searchQuary,
+                                        start:
+                                            (int.parse(start) + 10).toString(),
+                                      );
+                                    }),
+                                  );
+                                },
+                                child: const Text(
+                                  'Next >',
+                                  style: TextStyle(
+                                    color: AppColors.blueColor,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //! footer
+                        const SearchFooter(),
                       ],
                     );
                   }
@@ -80,39 +146,6 @@ class SearchResultScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }),
-            //? pagination buttons
-            //! prev and next buttons
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      '< Prev',
-                      style: TextStyle(
-                        color: AppColors.blueColor,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Next >',
-                      style: TextStyle(
-                        color: AppColors.blueColor,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //! footer
-            const SearchFooter(),
           ],
         ),
       ),

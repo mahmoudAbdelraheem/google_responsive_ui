@@ -15,7 +15,7 @@ class ApiServices {
       if (!isDummyData) {
         String q = quary.contains(' ') ? quary.split(' ').join('%20') : quary;
         String url =
-            "https://www.googleapis.com/customsearch/v1?key$apiKeys&cx=$contextKey&q=$q&start=&start";
+            "https://www.googleapis.com/customsearch/v1?key$apiKeys&cx=$contextKey&q=$q&start=$start";
         final http.Response response = await http.get(Uri.parse(url));
         if (response.statusCode == 200) {
           final jsonData = response.body;

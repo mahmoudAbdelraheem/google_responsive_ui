@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_responsive_ui/app_colors.dart';
+import 'package:google_responsive_ui/screens/search_result_screen.dart';
 
 class SearchHeader extends StatelessWidget {
   const SearchHeader({super.key});
@@ -29,6 +30,17 @@ class SearchHeader extends StatelessWidget {
             width: screenSize.width * 0.55,
             height: 44,
             child: TextFormField(
+              onFieldSubmitted: (quary) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return SearchResultScreen(
+                      searchQuary: quary,
+                      start: '0',
+                    );
+                  }),
+                );
+              },
               style: const TextStyle(fontSize: 16),
               decoration: InputDecoration(
                 suffixIcon: Row(

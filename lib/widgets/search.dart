@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_responsive_ui/app_colors.dart';
+import 'package:google_responsive_ui/screens/search_result_screen.dart';
 
 class Search extends StatelessWidget {
   const Search({super.key});
@@ -25,7 +26,18 @@ class Search extends StatelessWidget {
             width: screenSize.width > 768
                 ? screenSize.width * 0.5
                 : screenSize.width * 0.8,
-            child: TextField(
+            child: TextFormField(
+              onFieldSubmitted: (quary) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return SearchResultScreen(
+                      searchQuary: quary,
+                      start: '0',
+                    );
+                  }),
+                );
+              },
               decoration: InputDecoration(
                 border: const OutlineInputBorder(
                   borderSide: BorderSide(
